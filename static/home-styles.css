@@ -1,0 +1,122 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Base Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    color: #343a40;
+    line-height: 1.6;
+}
+
+/* Backgrounds */
+.bg-gradient {
+    background: linear-gradient(135deg, #1a3a5f 0%, #0d2339 100%);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+}
+
+.text-primary {
+    color: #1a3a5f !important;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #1a3a5f;
+    border-color: #1a3a5f;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #15304f;
+    border-color: #10263f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Cards */
+.card {
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Timeline */
+.timeline-line {
+    position: absolute;
+    left: 24px;
+    top: 25px;
+    bottom: 25px;
+    width: 2px;
+    background-color: #dee2e6;
+    z-index: 0;
+}
+
+.timeline-circle {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    z-index: 1;
+    position: relative;
+}
+
+/* Responsive Images */
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Header */
+.navbar-brand {
+    font-weight: 700;
+}
+
+/* Hero Section */
+.hero-image {
+    max-height: 500px;
+    object-fit: contain;
+}
+
+.hero-section {
+    background-color: #1a3a5f;
+    color: white;
+}
+
+.hero-section h1, .hero-section p {
+    color: white;
+}
+
+/* Footer */
+footer {
+    font-size: 0.9rem;
+}
+
+footer a:hover {
+    color: #fff !important;
+    text-decoration: none;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2.5rem;
+    }
+    
+    .timeline-line {
+        display: none !important;
+    }
+    
+    .timeline-circle {
+        margin-bottom: 1rem;
+    }
+} 

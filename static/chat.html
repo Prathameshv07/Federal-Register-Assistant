@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Federal Register Assistant</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Plotly.js for advanced visualizations -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        /* Additional fixes for sidebar scrolling issue */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 1;
+            -webkit-overflow-scrolling: auto;
+            overscroll-behavior: contain;
+        }
+        .main-content {
+            margin-left: 25%; /* Adjust based on sidebar width */
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                height: auto;
+                max-height: 300px;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg" href="/static/images/favicon.svg">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar with stats and visualizations -->
+            <div class="col-md-3 sidebar">
+                <div class="sidebar-header">
+                    <h2><i class="fas fa-book-open"></i> Federal Register</h2>
+                    <p>RAG-powered Document Assistant</p>
+                </div>
+                
+                <!-- Data freshness indicator -->
+                <div class="freshness-indicator">
+                    <div class="freshness-label">Data Freshness:</div>
+                    <div class="freshness-value" id="data-freshness">
+                        <span class="dot loading"></span> Checking...
+                    </div>
+                </div>
+                
+                <!-- Database stats -->
+                <div class="stats-panel">
+                    <h5>Database Statistics</h5>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="total-documents">-</div>
+                            <div class="stat-label">Documents</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="date-range">-</div>
+                            <div class="stat-label">Date Range</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document type distribution chart -->
+                <div class="chart-container">
+                    <h5>Document Types</h5>
+                    <canvas id="document-types-chart"></canvas>
+                </div>
+                
+                <!-- Timeline visualization -->
+                <div class="chart-container">
+                    <h5>Document Timeline</h5>
+                    <div id="timeline-chart"></div>
+                </div>
+                
+                <!-- Query performance metrics -->
+                <div class="metrics-panel">
+                    <h5>Query Performance</h5>
+                    <div class="metric">
+                        <span class="metric-label">Last Query Time:</span>
+                        <span class="metric-value" id="query-time">-</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Tools Used:</span>
+                        <span class="metric-value" id="tools-used">-</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main chat area -->
+            <div class="col-md-9 main-content">
+                <div class="chat-container">
+                    <div id="chat-messages" class="messages-container"></div>
+                    
+                    <!-- Related query suggestions -->
+                    <div id="suggestions-container" class="suggestions-container"></div>
+                    
+                    <!-- Input form -->
+                    <div class="input-container">
+                        <form id="chat-form">
+                            <div class="input-group">
+                                <input type="text" id="user-input" class="form-control" 
+                                       placeholder="Ask about federal regulations, executive orders, etc..." autocomplete="off">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                                <button class="btn btn-secondary" type="button" id="voice-input-btn">
+                                    <i class="fas fa-microphone"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Document preview panel (hidden by default) -->
+                <div id="document-preview" class="document-panel">
+                    <div class="document-header">
+                        <h4 id="preview-title">Document Preview</h4>
+                        <button id="close-preview" class="btn-close"></button>
+                    </div>
+                    <div class="document-content">
+                        <div id="preview-meta" class="document-meta"></div>
+                        <div id="preview-abstract" class="document-abstract"></div>
+                        <div class="document-actions">
+                            <a id="preview-html-link" href="#" target="_blank" class="btn btn-sm btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View on Federal Register
+                            </a>
+                            <a id="preview-pdf-link" href="#" target="_blank" class="btn btn-sm btn-danger">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Demo mode modal -->
+    <div class="modal fade" id="demo-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Demo Mode</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Select a demo scenario to see the assistant in action:</p>
+                    <div class="list-group demo-scenarios">
+                        <button class="list-group-item list-group-item-action" data-query="What are the latest executive orders?">
+                            Latest Executive Orders
+                        </button>
+                        <button class="list-group-item list-group-item-action" data-query="Find regulations about climate change published in the last month">
+                            Climate Change Regulations
+                        </button>
+                        <button class="list-group-item list-group-item-action" data-query="Summarize recent presidential documents">
+                            Presidential Document Summary
+                        </button>
+                        <button class="list-group-item list-group-item-action" data-query="What documents were published yesterday about healthcare?">
+                            Healthcare Documents
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading overlay -->
+    <div id="loading-overlay">
+        <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div>Loading Federal Register Assistant...</div>
+    </div>
+    
+    <!-- Bootstrap and custom scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/main.js"></script>
+    <script>
+    // Additional script to prevent sidebar scrolling issues
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.querySelector('.sidebar');
+        
+        // Reset scroll position to top
+        sidebar.scrollTop = 0;
+        
+        // Disable wheel events that might cause continuous scrolling
+        sidebar.addEventListener('wheel', function(e) {
+            if (e.deltaY < 0 && sidebar.scrollTop <= 0) {
+                e.preventDefault();
+            }
+            if (e.deltaY > 0 && sidebar.scrollTop + sidebar.clientHeight >= sidebar.scrollHeight - 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        // Clear any existing animation frames
+        let scrollAnimationFrame = null;
+        function cancelScroll() {
+            if (scrollAnimationFrame) {
+                cancelAnimationFrame(scrollAnimationFrame);
+                scrollAnimationFrame = null;
+            }
+        }
+        
+        // Cancel any scrolling on touch
+        sidebar.addEventListener('touchstart', cancelScroll);
+        
+        // Cancel any scrolling when mouse enters sidebar
+        sidebar.addEventListener('mouseenter', cancelScroll);
+    });
+    </script>
+</body>
+</html> 
