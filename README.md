@@ -32,7 +32,7 @@ A user-facing RAG (Retrieval Augmented Generation) agentic system that provides 
 
 - Python 3.10+
 - MySQL Server
-- Ollama (for local LLM) or OpenAI API key
+- Ollama (for local LLM)
 
 ### Installation
 
@@ -48,7 +48,7 @@ A user-facing RAG (Retrieval Augmented Generation) agentic system that provides 
    ```
 
 3. Set up the database
-   ``
+   ```
    Get-Content .\federal-schema.sql | mysql -u root -p  # PowerSell
 
    cmd /c "mysql -u root -p < federal-schema.sql"  # Command Prompt
@@ -65,7 +65,7 @@ A user-facing RAG (Retrieval Augmented Generation) agentic system that provides 
    OLLAMA_URL=http://localhost:11434
    ```
 
-5. Download Ollama and the Qwen model (if using locally)
+5. Download Ollama and the Qwen model
    ```
    # Install Ollama from https://ollama.ai/
    ollama pull qwen2.5:1.5b-instruct-q4_K_M
@@ -106,7 +106,3 @@ A user-facing RAG (Retrieval Augmented Generation) agentic system that provides 
 - **Agent**: LLM-powered agent with tool-calling capabilities
 - **API**: FastAPI backend with WebSocket support for real-time chat
 - **Frontend**: Interactive web interface for querying and visualization
-
-## License
-
-MIT 
