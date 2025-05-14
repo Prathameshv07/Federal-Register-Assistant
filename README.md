@@ -23,7 +23,7 @@ A user-facing RAG (Retrieval Augmented Generation) agentic system that provides 
 
 ## Demo & Documentation
 
-- 📄 [Project Documentation](https://drive.google.com/file/d/1ugB9d5J-ESTpnnsBfedatvcySZByb_Qw/view)
+- 📄 [Project Documentation](https://drive.google.com/file/d/1pCJqXYNwmjf_M8AzgZVVBfuDXAy-b_96/view)
 - 🎥 [Video Preview](https://drive.google.com/file/d/1yh6PwrA9BkQT_A1Vz3L7Cna-tNLyN0TO/view)
 
 ## Setup
