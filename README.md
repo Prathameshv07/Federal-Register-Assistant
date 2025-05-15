@@ -15,16 +15,31 @@ A user-facing RAG (Retrieval Augmented Generation) agentic system that provides 
 - **Document Preview**: View document snippets with highlighted keywords
 - **Follow-up Suggestions**: Smart suggestions for related queries
 
+## Simple Architecture Overview
+
+```
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐      ┌──────────────┐
+│ Data        │     │ MySQL        │     │ Agent with  │      │ User         │
+│ Pipeline    │────▶ Database     │────▶  Tool Calls  │◀───▶ Interface     |
+└─────────────┘     └──────────────┘     └─────────────┘      └──────────────┘
+   (Daily)             (Storage)           (Inference)          (Frontend)
+```
+
 ## Screenshots
 
-![Screenshot](static/images/Screenshot_Work_1.png)
+### 1. Simple Query Execution
+![Screenshot_1](static/images/Screenshot_Work_1.png)
 
-![Screenshot](static/images/Screenshot_Work_2.png)
+### 2. Complex Query Execution
+![Screenshot_2](static/images/Screenshot_Work_2.png)
+
+### 3. Edge-case Query Execution
+![Screenshot_3](static/images/Screenshot_Work_3.png)
 
 ## Demo & Documentation
 
 - 📄 [Project Documentation](https://drive.google.com/file/d/1pCJqXYNwmjf_M8AzgZVVBfuDXAy-b_96/view)
-- 🎥 [Video Preview](https://drive.google.com/file/d/1yh6PwrA9BkQT_A1Vz3L7Cna-tNLyN0TO/view)
+- 🎥 [Video Preview](https://drive.google.com/file/d/1BT3HQmu9WyP9d8--m9W_SwtyuJU-quHr/view)
 
 ## Setup
 
