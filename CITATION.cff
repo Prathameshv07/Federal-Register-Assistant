@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it using the metadata below."
+type: software
+title: "Federal Register Assistant: An Agentic RAG System"
+authors:
+  - given-names: "Prathamesh Sarjerao"
+    family-names: "Vaidya"
+    orcid: "https://orcid.org/0009-0000-8091-4256"
+repository-code: "https://github.com/Prathameshv07/Federal-Register-Assistant"
+license: CC-BY-NC-4.0
+date-released: "2025-05-22"
+abstract: "A retrieval-augmented, tool-calling LLM agent (Qwen2.5 via Ollama) that answers natural-language questions about U.S. Federal Register documents, backed by a daily asynchronous ingestion pipeline into MySQL and a FastAPI/WebSocket chat interface."
+keywords:
+  - "retrieval-augmented generation"
+  - "LLM agents"
+  - "tool calling"
+  - "Qwen2.5"
+  - "Ollama"
+  - "FastAPI"

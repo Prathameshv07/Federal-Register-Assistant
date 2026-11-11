@@ -53,8 +53,8 @@ A user-facing RAG (Retrieval Augmented Generation) agentic system that provides 
 
 1. Clone this repository
    ```
-   git clone https://github.com/Prathameshv07/federal-register-agent.git
-   cd federal-register-agent
+   git clone https://github.com/Prathameshv07/Federal-Register-Assistant.git
+   cd Federal-Register-Assistant
    ```
 
 2. Install dependencies
@@ -64,13 +64,12 @@ A user-facing RAG (Retrieval Augmented Generation) agentic system that provides 
 
 3. Set up the database
    ```
-   Get-Content .\federal-schema.sql | mysql -u root -p  # PowerSell
-
-   cmd /c "mysql -u root -p < federal-schema.sql"  # Command Prompt
+   mysql -u root -p < federal-schema.sql                    # Linux / macOS / Command Prompt
+   Get-Content .\federal-schema.sql | mysql -u root -p      # PowerShell
    ```
 
 4. Configure environment variables
-   Create a `.env` file in the root directory with the following variables:
+   Copy `.env.example` to `.env` and fill in your values:
    ```
    MYSQL_HOST=localhost
    MYSQL_PORT=3306
@@ -121,3 +120,22 @@ A user-facing RAG (Retrieval Augmented Generation) agentic system that provides 
 - **Agent**: LLM-powered agent with tool-calling capabilities
 - **API**: FastAPI backend with WebSocket support for real-time chat
 - **Frontend**: Interactive web interface for querying and visualization
+
+## Citation
+
+If you use or build on this project, please cite it. GitHub's **"Cite this repository"** button (generated from [`CITATION.cff`](CITATION.cff)) provides APA and BibTeX formats.
+
+```bibtex
+@software{vaidya_federalregisterassis_2025,
+  author = {Vaidya, Prathamesh Sarjerao},
+  title  = {Federal Register Assistant: An Agentic RAG System},
+  year   = {2025},
+  url    = {https://github.com/Prathameshv07/Federal-Register-Assistant}
+}
+```
+
+## License
+
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+
+© 2025 Prathamesh Sarjerao Vaidya. This work is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/). You may share and adapt it for **non-commercial** purposes, provided you **give appropriate credit** and indicate any changes. See [LICENSE](LICENSE) for details.
